@@ -1,7 +1,7 @@
 import math
 from prettytable import PrettyTable
 
-
+# return the least common multiple of two numbers (not absolute)
 def get_least_common_multiple(number1, number2):
     return number1 * number2 // math.gcd(number1, number2)
 
@@ -10,20 +10,25 @@ class EquationSystem:
     def __init__(self, equation_system):
         self.equation_system = equation_system
         self.eqs_history = [equation_system]
+        self.step_history = []
 
+    # print the equation system as a table using prettytable
     def print_eqs_as_table(self):
         table = PrettyTable(["x", "y", "z", "d"])
         for element in self.equation_system:
             table.add_row(element)
         print(table)
 
+    # check whether the eqs is solved
     def evaluate_solved(self):
         columns = self.get_columns()
         column_rows_solved = [column.count(0) for column in columns]
         max_zeros = max(column_rows_solved)
         column_rows_solved.remove(max_zeros)
+        # whether at least one column has 2 zeros and one column has 1 zero
         return max_zeros > 1 and max(column_rows_solved) > 0
 
+    # add two lines (subtract by negative multiplier)
     def add_lines(self, line1, line2, line1multi, line2multi):
         if line1multi < 0:
             line1multi *= -1
